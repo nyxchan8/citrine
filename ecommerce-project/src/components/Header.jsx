@@ -1,12 +1,30 @@
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import "./header.css";
 
 export function Header({ cart }) {
+  const [searchParams] = useSearchParams();
+  const searchFromUrl = searchParams.get("search") ?? "";
+  const [search, setSearch] = useState(searchFromUrl);
+  const navigate = useNavigate();
   let totalQuantity = 0;
 
   cart.forEach((cartItem) => {
     totalQuantity += cartItem.quantity;
   });
+
+  useEffect(() => {
+    setSearch(searchFromUrl);
+  }, [searchFromUrl]);
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSearchClick = () => {
+    navigate(`/?search=${encodeURIComponent(search)}`);
+  };
+
   return (
     <>
       <div className="header">
@@ -18,9 +36,15 @@ export function Header({ cart }) {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={handleSearchChange}
+          />
 
-          <button className="search-button">
+          <button className="search-button" onClick={handleSearchClick}>
             <img className="search-icon" src="images/icons/search-icon.png" />
           </button>
         </div>
