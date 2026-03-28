@@ -1,12 +1,18 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
-import { products } from "../../starting-code/data/products";
 import "./HomePage.css";
 
 export function HomePage() {
-  axios.get("http://localhost:3000/api/products").then((response) => {
-    console.log(response.data);
-  });
+  const [products, setProducts] = useState([]);
+
+  // useEffect = lets us control when some code runs
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((response) => {
+      setProducts(response.data);
+    });
+  }, []);
+  // Dependency Array = lets us control when useEffect runs, [] = only run once
 
   return (
     <>
