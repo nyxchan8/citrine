@@ -3,6 +3,7 @@ import { HomePage } from "./pages/home/HomePage";
 import { CheckOutPage } from "./pages/checkout/CheckOutPage";
 import { OrdersPage } from "./pages/orders/OrdersPage";
 import { TrackingPage } from "./pages/TrackingPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
@@ -29,6 +30,7 @@ function App() {
         path="tracking/:orderId/:productId"
         element={<TrackingPage cart={cart} />}
       />
+      <Route path="*" element={<NotFoundPage cart={cart} />} />
     </Routes>
   );
 }
