@@ -8,6 +8,7 @@ import "./TrackingPage.css";
 export function TrackingPage({ cart }) {
   const { orderId, productId } = useParams();
   const [order, setOrder] = useState(null);
+  const isMissingParams = !orderId || !productId;
 
   useEffect(() => {
     if (!orderId) {
@@ -19,6 +20,28 @@ export function TrackingPage({ cart }) {
     });
   }, [orderId]);
 
+  if (isMissingParams) {
+    return (
+      <>
+        <title>Tracking</title>
+
+        <Header cart={cart} />
+
+        <div className="tracking-page">
+          <div className="order-tracking">
+            <a className="back-to-orders-link link-primary" href="/orders">
+              View all orders
+            </a>
+
+            <div className="delivery-date">
+              Select an order to start tracking.
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   if (!order) {
     return null;
   }
@@ -28,7 +51,25 @@ export function TrackingPage({ cart }) {
   );
 
   if (!orderProduct) {
-    return null;
+    return (
+      <>
+        <title>Tracking</title>
+
+        <Header cart={cart} />
+
+        <div className="tracking-page">
+          <div className="order-tracking">
+            <a className="back-to-orders-link link-primary" href="/orders">
+              View all orders
+            </a>
+
+            <div className="delivery-date">
+              We couldn&apos;t find that product in this order.
+            </div>
+          </div>
+        </div>
+      </>
+    );
   }
 
   const totalDeliveryTimeMs =
