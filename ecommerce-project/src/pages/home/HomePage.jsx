@@ -9,9 +9,12 @@ export function HomePage({ cart }) {
 
   // useEffect = lets us control when some code runs
   useEffect(() => {
-    axios.get("/api/products").then((response) => {
+    const getHomeData = async () => {
+      const response = await axios.get("/api/products");
       setProducts(response.data);
-    });
+    };
+
+    getHomeData();
   }, []);
   // Dependency Array = lets us control when useEffect runs, [] = only run once
 
